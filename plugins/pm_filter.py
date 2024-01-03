@@ -198,7 +198,8 @@ async def next_page(bot, query):
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+             search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )        
     else:
@@ -207,7 +208,8 @@ async def next_page(bot, query):
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+           search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )
     if 0 < offset <= MAX_BTN:
@@ -291,7 +293,8 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+            search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )
     else:
@@ -299,7 +302,8 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+            search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )
     if l_offset != "":
@@ -359,7 +363,8 @@ async def lang_next_page(bot, query):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+            search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )
     else:
@@ -367,7 +372,8 @@ async def lang_next_page(bot, query):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
         )
         btn.append(
-            search = search.replace(" ", "%20")
+            search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
         )
     if 0 < l_offset <= MAX_BTN:
@@ -834,7 +840,8 @@ async def auto_filter(client, msg, spoll=False):
                 InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0")]
             )
             btn.append(
-                 search = search.replace(" ", "%20")
+                 search = message.text
+    google_search = search.replace(" ", "%20")
                 [InlineKeyboardButton("🌟 Review this movie / series",  url=f'http://reviewdeck.eu.org/search/{search}')]
            )
         else:
@@ -843,7 +850,8 @@ async def auto_filter(client, msg, spoll=False):
                  InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0")]
             )
             btn.append(
-                search = search.replace(" ", "%20")
+                search = message.text
+    google_search = search.replace(" ", "%20")
                 [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
            )
         btn.append(
@@ -860,7 +868,8 @@ async def auto_filter(client, msg, spoll=False):
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
             )
             btn.append(
-                search = search.replace(" ", "%20")
+                search = message.text
+    google_search = search.replace(" ", "%20")
         [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
             )    
         btn.append(
