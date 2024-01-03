@@ -197,17 +197,17 @@ async def next_page(bot, query):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
         )
-btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )        
+        btn.append(
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )        
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
         )
-btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+        btn.append(
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )
     if 0 < offset <= MAX_BTN:
         off_set = 0
     elif offset == 0:
@@ -289,15 +289,15 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
         btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
         )
-    btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+        btn.append(
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )
     if l_offset != "":
         btn.append(
             [InlineKeyboardButton(text=f"1/{math.ceil(int(total_results) / MAX_BTN)}", callback_data="buttons"),
@@ -355,15 +355,15 @@ async def lang_next_page(bot, query):
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}'))]
         )
         btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
         )
-btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+        btn.append(
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        )
     if 0 < l_offset <= MAX_BTN:
         b_offset = 0
     elif l_offset == 0:
@@ -827,17 +827,17 @@ async def auto_filter(client, msg, spoll=False):
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
                 InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0")]
             )
-btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series",  callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+            btn.append(
+                [InlineKeyboardButton("🌟 Review this movie / series",  url=f'http://reviewdeck.eu.org/search/{search}')]
+           )
         else:
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
                  InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0")]
             )
-btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )
+            btn.append(
+                [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+           )
         btn.append(
             [InlineKeyboardButton(text=f"1/{math.ceil(int(total_results) / MAX_BTN)}", callback_data="buttons"),
              InlineKeyboardButton(text="ɴᴇxᴛ »", callback_data=f"next_{req}_{key}_{offset}")]
@@ -851,9 +851,9 @@ btn.append(
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
             )
-        btn.append(
-        [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f'http://reviewdeck.eu.org/search/{search}')]
-    )    
+            btn.append(
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+            )    
         btn.append(
             [InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
         )
