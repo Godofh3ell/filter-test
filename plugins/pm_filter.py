@@ -816,13 +816,13 @@ async def auto_filter(client, msg, spoll=False):
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{message.chat.id}_{key}')),
                 InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0"),
-                InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+                InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower()}")]
             )
         else:
             btn.insert(0,
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
                  InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#0"),
-                InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+                InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower()}")]
             )
 
         btn.append(
@@ -839,7 +839,7 @@ async def auto_filter(client, msg, spoll=False):
                 [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}")]
             )
         btn.append(
-            [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}"),
+            [InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower()}"),
              InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
         )
     btn.append(
