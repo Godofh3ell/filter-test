@@ -196,13 +196,13 @@ async def next_page(bot, query):
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
-            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower())}")]
         )
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}"),
-            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower())}")]
         )
 
     if 0 < offset <= MAX_BTN:
@@ -284,12 +284,12 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
     if settings['shortlink']:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
-            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower())}")]
         )
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
-            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower())}")]
         )
     
     if l_offset != "":
@@ -351,7 +351,7 @@ async def lang_next_page(bot, query):
     else:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
-            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{message.text.lower())}")]
+            InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower())}")]
         )
 
     if 0 < l_offset <= MAX_BTN:
