@@ -195,7 +195,7 @@ async def next_page(bot, query):
     if settings['shortlink']:
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", url=await get_shortlink(settings['url'], settings['api'], f'https://t.me/{temp.U_NAME}?start=all_{query.message.chat.id}_{key}')),
-            InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
+            InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}"),
             InlineKeyboardButton("🌟 Review this movie / series", callback_data=f"http://reviewdeck.eu.org/search/{'',message.text.lower()}")]
         )
     else:
