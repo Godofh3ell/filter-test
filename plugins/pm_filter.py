@@ -208,6 +208,7 @@ async def next_page(bot, query):
         btn.insert(0,
             [InlineKeyboardButton("♻️ sᴇɴᴅ ᴀʟʟ ♻️", callback_data=f"send_all#{key}"),
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
+      )
         btn.append(
     InlineKeyboardButton(
         "🌟 Review this movie / series",
