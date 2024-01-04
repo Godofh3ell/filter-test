@@ -133,22 +133,16 @@ async def start(client, message):
         file_size=get_size(file.file_size),
         file_caption=file.caption
     )
-
-    btn = [
-        [
+    btn = [[
             InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-        ],
-        [
+        ],[
             InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
             InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
-        ],
-        [
+        ],[
             InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-        ],
-        [
+        ],[
             InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-        ]
-    ]
+        ]]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
