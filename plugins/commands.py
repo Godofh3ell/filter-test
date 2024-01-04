@@ -124,9 +124,7 @@ async def start(client, message):
         settings = await get_settings(int(grp_id))
       for file in files:
     CAPTION = settings['caption']
-    # Extract the first two words from file_name
     first_two_words = ' '.join(file.file_name.split()[:2])
-
     f_caption = CAPTION.format(
         file_name=file.file_name,
         first_two_words=first_two_words,
