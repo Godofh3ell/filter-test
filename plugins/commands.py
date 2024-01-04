@@ -122,25 +122,33 @@ async def start(client, message):
         if not files:
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
-        for file in files:
-            CAPTION = settings['caption']
-            first_two_words = ' '.join(file.file_name.split()[:2])
-            f_caption = CAPTION.format(
-                file_name = file.file_name,
-                first_two_words=first_two_words,
-                file_size = get_size(file.file_size),
-                file_caption=file.caption
-            )   
-            btn = [[
-                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-            ],[
-                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
-                InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
-            ],[
-                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-            ],[
-                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-            ]]
+      for file in files:
+    CAPTION = settings['caption']
+    # Extract the first two words from file_name
+    first_two_words = ' '.join(file.file_name.split()[:2])
+
+    f_caption = CAPTION.format(
+        file_name=file.file_name,
+        first_two_words=first_two_words,
+        file_size=get_size(file.file_size),
+        file_caption=file.caption
+    )
+
+    btn = [
+        [
+            InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+        ],
+        [
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
+        ],
+        [
+            InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
+        ],
+        [
+            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+        ]
+    ]
             await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file.file_id,
