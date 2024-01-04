@@ -126,6 +126,7 @@ async def start(client, message):
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
+                first_two_words = ' '.join(files.file_name.split()[:2]),
                 file_size = get_size(file.file_size),
                 file_caption=file.caption,
                 message_text = auto_filter.message.text
@@ -136,7 +137,7 @@ async def start(client, message):
                 InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
             ],[
-                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
             ],[
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
@@ -167,6 +168,7 @@ async def start(client, message):
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
+        first_two_words = ' '.join(files.file_name.split()[:2]),
         file_size = get_size(files.file_size),
         file_caption=files.caption,
         message_text = auto_filter.message.text
@@ -177,7 +179,7 @@ async def start(client, message):
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
     ],[
-        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
+        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
     ],[
         InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
     ]]
