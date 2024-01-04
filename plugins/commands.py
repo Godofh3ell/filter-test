@@ -128,6 +128,7 @@ async def start(client, message):
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
                 file_caption=file.caption
+                message_text = auto_filter.message.text
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
@@ -168,6 +169,7 @@ async def start(client, message):
         file_name = files.file_name,
         file_size = get_size(files.file_size),
         file_caption=files.caption
+        message_text = auto_filter.message.text
     )
     btn = [[
         InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
