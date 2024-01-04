@@ -17,7 +17,7 @@ import base64
 import sys
 from shortzy import Shortzy
 from telegraph import upload_file
-from pm_filter import message.text
+from ..plugins/pm_filter import message.text
 
 
 @Client.on_message(filters.command("start") & filters.incoming)
