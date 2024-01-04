@@ -128,8 +128,7 @@ async def start(client, message):
                 file_name = file.file_name,
                 first_two_words = ' '.join(files.file_name.split()[:2]),
                 file_size = get_size(file.file_size),
-                file_caption=file.caption,
-                message_text = auto_filter.message.text
+                file_caption=file.caption
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
@@ -170,8 +169,7 @@ async def start(client, message):
         file_name = files.file_name,
         first_two_words = ' '.join(files.file_name.split()[:2]),
         file_size = get_size(files.file_size),
-        file_caption=files.caption,
-        message_text = auto_filter.message.text
+        file_caption=files.caption
     )
     btn = [[
         InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
