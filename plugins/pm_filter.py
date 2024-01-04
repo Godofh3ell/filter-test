@@ -28,10 +28,10 @@ async def aks_downloader(bot, query):
     btn= [[
         InlineKeyboardButton("ᴡᴀᴛᴄʜ ᴏɴʟɪɴᴇ", url=watch),
         InlineKeyboardButton("ꜰᴀsᴛ ᴅᴏᴡɴʟᴏᴀᴅ", url=download)
-    ],[
-        InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
     ],[InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
-       ]]
+       ],[
+        InlineKeyboardButton('❌ ᴄʟᴏsᴇ ❌', callback_data='close_data')
+    ]]
     await query.edit_message_reply_markup(
         reply_markup=InlineKeyboardMarkup(btn)
     )
