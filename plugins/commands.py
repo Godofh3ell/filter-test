@@ -124,10 +124,10 @@ async def start(client, message):
         settings = await get_settings(int(grp_id))
         for file in files:
             CAPTION = settings['caption']
+            first_two_words = ' '.join(file.file_name.split()[:2])
             f_caption = CAPTION.format(
                 file_name = file.file_name,
                 first_two_words=first_two_words,
-                first_two_words = ' '.join(files.file_name.split()[:2]),
                 file_size = get_size(file.file_size),
                 file_caption=file.caption
             )   
@@ -166,10 +166,10 @@ async def start(client, message):
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
     CAPTION = settings['caption']
+    first_two_words = ' '.join(file.file_name.split()[:2])
     f_caption = CAPTION.format(
         file_name = files.file_name,
         first_two_words=first_two_words,
-        first_two_words = ' '.join(files.file_name.split()[:2]),
         file_size = get_size(files.file_size),
         file_caption=files.caption
     )
