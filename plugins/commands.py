@@ -134,21 +134,21 @@ async def start(client, message):
         btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
         ],[
-             InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
             InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
         ],[
             InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
         ],[
             InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
         ]]
-            await client.send_cached_media(
-                chat_id=message.from_user.id,
-                file_id=file.file_id,
-                caption=f_caption,
-                protect_content=settings['file_secure'],
-                reply_markup=InlineKeyboardMarkup(btn)
-            )
-        return
+        await client.send_cached_media(
+            chat_id=message.from_user.id,
+            file_id=file.file_id,
+            caption=f_caption,
+            protect_content=settings['file_secure'],
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
+    return
 
     type_, grp_id, file_id = mc.split("_", 2)
     files_ = await get_file_details(file_id)
