@@ -200,7 +200,7 @@ async def next_page(bot, query):
         btn.append(
              search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )        
     else:
         btn.insert(0,
@@ -210,7 +210,7 @@ async def next_page(bot, query):
         btn.append(
            search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )
     if 0 < offset <= MAX_BTN:
         off_set = 0
@@ -295,7 +295,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.append(
             search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )
     else:
         btn.insert(0,
@@ -304,7 +304,7 @@ async def filter_languages_cb_handler(client: Client, query: CallbackQuery):
         btn.append(
             search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )
     if l_offset != "":
         btn.append(
@@ -365,7 +365,7 @@ async def lang_next_page(bot, query):
         btn.append(
             search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )
     else:
         btn.insert(0,
@@ -374,7 +374,7 @@ async def lang_next_page(bot, query):
         btn.append(
             search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
         )
     if 0 < l_offset <= MAX_BTN:
         b_offset = 0
@@ -842,7 +842,7 @@ async def auto_filter(client, msg, spoll=False):
             btn.append(
                  search = message.text,
     google_search = search.replace(" ", "%20")
-                [InlineKeyboardButton("🌟 Review this movie / series",  url=f'http://reviewdeck.eu.org/search/{search}')]
+                [InlineKeyboardButton("🌟 Review this movie / series",  url=f'http://reviewdeck.eu.org/search/{google_search}')]
            )
         else:
             btn.insert(0,
@@ -852,7 +852,7 @@ async def auto_filter(client, msg, spoll=False):
             btn.append(
                 search = message.text,
     google_search = search.replace(" ", "%20")
-                [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+                [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
            )
         btn.append(
             [InlineKeyboardButton(text=f"1/{math.ceil(int(total_results) / MAX_BTN)}", callback_data="buttons"),
@@ -870,7 +870,7 @@ async def auto_filter(client, msg, spoll=False):
             btn.append(
                 search = message.text,
     google_search = search.replace(" ", "%20")
-        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search}')]
+        [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{google_search}')]
             )    
         btn.append(
             [InlineKeyboardButton(text="🚸 ɴᴏ ᴍᴏʀᴇ ᴘᴀɢᴇs 🚸", callback_data="buttons")]
