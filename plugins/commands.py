@@ -17,6 +17,7 @@ import base64
 import sys
 from shortzy import Shortzy
 from telegraph import upload_file
+from pm_filter import message.text
 
 
 @Client.on_message(filters.command("start") & filters.incoming)
@@ -134,7 +135,7 @@ async def start(client, message):
                 InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
             ],[
-                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.from_user.replace(" ", "%20")}')
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
             ],[
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
@@ -174,7 +175,7 @@ async def start(client, message):
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
     ],[
-        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.from_user.replace(" ", "%20")}')
+        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
     ],[
         InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
     ]]
