@@ -134,6 +134,8 @@ async def start(client, message):
                 InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
             ],[
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
+            ],[
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
             await client.send_cached_media(
@@ -171,6 +173,8 @@ async def start(client, message):
     ],[
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+    ],[
+        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{message.text.replace(" ", "%20")}')
     ],[
         InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
     ]]
