@@ -172,8 +172,8 @@ async def start(client, message):
             continue
             first_two_words = ' '.join(file.file_name.split()[:2])
             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-             CAPTION = settings['caption']
-             f_caption = CAPTION.format(
+            CAPTION = settings['caption']
+            f_caption = CAPTION.format(
                 file_name=cleaned_file_name,
                 first_two_words=first_two_words,
                 file_size=get_size(file.file_size),
@@ -190,9 +190,9 @@ async def start(client, message):
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
             await client.send_cached_media(
-                 chat_id=message.from_user.id,
-                 file_id=file.file_id,
-                 caption=f_caption,
+                chat_id=message.from_user.id,
+                file_id=file.file_id,
+                caption=f_caption,
                 protect_content=settings['file_secure'],
                 reply_markup=InlineKeyboardMarkup(btn)
             )
