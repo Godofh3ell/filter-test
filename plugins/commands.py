@@ -152,11 +152,11 @@ async def start(client, message):
             reply_markup=InlineKeyboardMarkup(btn)
             )
     return
-async def some_function():
-type_, grp_id, file_id = mc.split("_", 2)
-files_ = await get_file_details(file_id)
-if not files_:
-    return await message.reply('No Such File Exist!')
+    async def some_function():
+        type_, grp_id, file_id = mc.split("_", 2)
+        files_ = await get_file_details(file_id)
+        if not files_:
+            return await message.reply('No Such File Exist!')
 
 files = files_[0]
 settings = await get_settings(int(grp_id))
