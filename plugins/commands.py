@@ -123,16 +123,16 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
          settings = await get_settings(int(grp_id))
          for file in files:
-            if "[TSNM]" in file.file_name:
-                continue
-                first_two_words = ' '.join(file.file_name.split()[:2])
-                cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-                    CAPTION = settings['caption']
-                    f_caption = CAPTION.format(
-                        file_name=cleaned_file_name,
-                        first_two_words=first_two_words,
-                        file_size=get_size(file.file_size),
-                        file_caption=file.caption
+                if "[TSNM]" in file.file_name:
+                    continue
+                    first_two_words = ' '.join(file.file_name.split()[:2])
+                    cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+                        CAPTION = settings['caption']
+                        f_caption = CAPTION.format(
+                            file_name=cleaned_file_name,
+                            first_two_words=first_two_words,
+                            file_size=get_size(file.file_size),
+                            file_caption=file.caption
                 )
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
