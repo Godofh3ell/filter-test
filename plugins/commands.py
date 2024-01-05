@@ -122,33 +122,36 @@ async def start(client, message):
         if not files:
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
-        for file in files:
-            CAPTION = settings['caption']
+         for file in files:
+        if "[TSNM]" in file.file_name:
+            continue
             first_two_words = ' '.join(file.file_name.split()[:2])
-            f_caption = CAPTION.format(
-                file_name=file.file_name,
-                first_two_words=first_two_words,
-                file_size=get_size(file.file_size),
-                file_caption=file.caption,
-                cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-         )
-        btn = [[
+            cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+
+                CAPTION = settings['caption']
+                    f_caption = CAPTION.format(
+                    file_name=cleaned_file_name,
+                    first_two_words=first_two_words,
+                    file_size=get_size(file.file_size),
+                    file_caption=file.caption
+            )
+            btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-        ],[
-            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
-            InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
-        ],[
-            InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-        ],[
-            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-        ]]
-        await client.send_cached_media(
-            chat_id=message.from_user.id,
-            file_id=file.file_id,
-            caption=f_caption,
-            protect_content=settings['file_secure'],
-            reply_markup=InlineKeyboardMarkup(btn)
-        )
+            ],[
+                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+            ],[
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
+            ],[
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+            ]]
+            await client.send_cached_media(
+                 chat_id=message.from_user.id,
+                 file_id=file.file_id,
+                 caption=f_caption,
+                protect_content=settings['file_secure'],
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
     return
 
     type_, grp_id, file_id = mc.split("_", 2)
@@ -179,25 +182,23 @@ async def start(client, message):
                     file_size=get_size(file.file_size),
                     file_caption=file.caption
             )
-
-            btn = [
-            [InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-        ],[
-            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
-            InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
-        ],[
-            InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-        ],[
-            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-        ]]
-
-        await client.send_cached_media(
-            chat_id=message.from_user.id,
-            file_id=file.file_id,
-            caption=f_caption,
-            protect_content=settings['file_secure'],
-            reply_markup=InlineKeyboardMarkup(btn)
-        )
+            btn = [[
+                InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+            ],[
+                InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+                InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+            ],[
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
+            ],[
+                InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+            ]]
+            await client.send_cached_media(
+                 chat_id=message.from_user.id,
+                 file_id=file.file_id,
+                 caption=f_caption,
+                protect_content=settings['file_secure'],
+                reply_markup=InlineKeyboardMarkup(btn)
+            )
 
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
