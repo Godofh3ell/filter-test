@@ -153,51 +153,57 @@ async def start(client, message):
             )
     return
 
-    type_, grp_id, file_id = mc.split("_", 2)
-    files_ = await get_file_details(file_id)
-    if not files_:
-        return await message.reply('No Such File Exist!')
-    files = files_[0]
-    settings = await get_settings(int(grp_id))
-    if type_ != 'shortlink' and settings['shortlink']:
-        link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
-        btn = [[
-            InlineKeyboardButton("♻️ Get File ♻️", url=link)
-        ],[
-            InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])
-        ]]
-        await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
-        return
-        for file in files:
-            if "[TSNM]" in file.file_name:
-                continue
-                first_two_words = ' '.join(file.file_name.split()[:2])
-                cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-                CAPTION = settings['caption']
-                f_caption = CAPTION.format(
-                    file_name=cleaned_file_name,
-                    first_two_words=first_two_words,
-                    file_size=get_size(file.file_size),
-                    file_caption=file.caption
-                )
-                btn = [[
-                    InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
-                ],[
-                    InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
-                    InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
-                ],[
-                    InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-                ],[
-                    InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-                ]]
-                
-                await client.send_cached_media(
-                    chat_id=message.from_user.id,
-                    file_id=file.file_id,
-                    caption=f_caption,
-                    protect_content=settings['file_secure'],
-                    reply_markup=InlineKeyboardMarkup(btn)
-                )
+type_, grp_id, file_id = mc.split("_", 2)
+files_ = await get_file_details(file_id)
+if not files_:
+    return await message.reply('No Such File Exist!')
+
+files = files_[0]
+settings = await get_settings(int(grp_id))
+
+if type_ != 'shortlink' and settings['shortlink']:
+    link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
+    btn = [
+        [InlineKeyboardButton("♻️ Get File ♻️", url=link)],
+        [InlineKeyboardButton("📍 ʜᴏᴡ ᴛᴏ ᴏᴘᴇɴ ʟɪɴᴋ 📍", url=settings['tutorial'])]
+    ]
+    
+    await message.reply(
+        f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", 
+        reply_markup=InlineKeyboardMarkup(btn), 
+        protect_content=True
+    )
+else:
+    for file in files:
+        if "[TSNM]" in file.file_name:
+            continue
+
+        first_two_words = ' '.join(file.file_name.split()[:2])
+        cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+
+        CAPTION = settings['caption']
+        f_caption = CAPTION.format(
+            file_name=cleaned_file_name,
+            first_two_words=first_two_words,
+            file_size=get_size(file.file_size),
+            file_caption=file.caption
+        )
+
+        btn = [
+            [InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")],
+            [InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+             InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)],
+            [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')],
+            [InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')]
+        ]
+
+        await client.send_cached_media(
+            chat_id=message.from_user.id,
+            file_id=file.file_id,
+            caption=f_caption,
+            protect_content=settings['file_secure'],
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
 
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
