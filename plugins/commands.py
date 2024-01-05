@@ -121,9 +121,9 @@ async def start(client, message):
         files = temp.FILES.get(key)
         if not files:
             return await message.reply('No Such All Files Exist!')
-        settings = await get_settings(int(grp_id))
+         settings = await get_settings(int(grp_id))
          for file in files:
-        if "[TSNM]" in file.file_name:
+            if "[TSNM]" in file.file_name:
             continue
             first_two_words = ' '.join(file.file_name.split()[:2])
             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
