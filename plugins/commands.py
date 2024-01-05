@@ -129,7 +129,8 @@ async def start(client, message):
                 file_name=file.file_name,
                 first_two_words=first_two_words,
                 file_size=get_size(file.file_size),
-                file_caption=file.caption
+                file_caption=file.caption,
+                cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
          )
         btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
@@ -165,31 +166,38 @@ async def start(client, message):
         ]]
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
-    CAPTION = settings['caption']
-    first_two_words = ' '.join(file.file_name.split()[:2])
-    f_caption = CAPTION.format(
-        file_name = files.file_name,
-        first_two_words=first_two_words,
-        file_size = get_size(files.file_size),
-        file_caption=files.caption
-    )
-    btn = [[
-        InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
-    ],[
-        InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
-        InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
-    ],[
-        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
-    ],[
-        InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
-    ]]
-    await client.send_cached_media(
-        chat_id=message.from_user.id,
-        file_id=file_id,
-        caption=f_caption,
-        protect_content=settings['file_secure'],
-        reply_markup=InlineKeyboardMarkup(btn)
-    )
+     for file in files:
+        if "[TSNM]" in file.file_name:
+            continue
+            first_two_words = ' '.join(file.file_name.split()[:2])
+            cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+
+                CAPTION = settings['caption']
+                    f_caption = CAPTION.format(
+                    file_name=cleaned_file_name,
+                    first_two_words=first_two_words,
+                    file_size=get_size(file.file_size),
+                    file_caption=file.caption
+            )
+
+            btn = [
+            [InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+        ],[
+            InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
+            InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
+        ],[
+            InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{first_two_words.replace(" ", "%20")}')
+        ],[
+            InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
+        ]]
+
+        await client.send_cached_media(
+            chat_id=message.from_user.id,
+            file_id=file.file_id,
+            caption=f_caption,
+            protect_content=settings['file_secure'],
+            reply_markup=InlineKeyboardMarkup(btn)
+        )
 
 @Client.on_message(filters.command('index_channels') & filters.user(ADMINS))
 async def channels_info(bot, message):
