@@ -125,8 +125,8 @@ async def start(client, message):
         for file in files:
             if "[TSNM]" in file.file_name:
                 continue
-             first_two_words = ' '.join(file.file_name.split()[:2])
-             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+                 first_two_words = ' '.join(file.file_name.split()[:2])
+                 cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
              CAPTION = settings['caption']
              f_caption = CAPTION.format(
                   file_name=cleaned_file_name,
