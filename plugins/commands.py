@@ -152,7 +152,7 @@ async def start(client, message):
             reply_markup=InlineKeyboardMarkup(btn)
             )
     return
-
+async def some_function():
 type_, grp_id, file_id = mc.split("_", 2)
 files_ = await get_file_details(file_id)
 if not files_:
