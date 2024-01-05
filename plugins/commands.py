@@ -127,13 +127,12 @@ async def start(client, message):
             continue
             first_two_words = ' '.join(file.file_name.split()[:2])
             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-
-                CAPTION = settings['caption']
-                    f_caption = CAPTION.format(
-                    file_name=cleaned_file_name,
-                    first_two_words=first_two_words,
-                    file_size=get_size(file.file_size),
-                    file_caption=file.caption
+            CAPTION = settings['caption']
+            f_caption = CAPTION.format(
+                file_name=cleaned_file_name,
+                first_two_words=first_two_words,
+                file_size=get_size(file.file_size),
+                file_caption=file.caption
             )
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
@@ -169,18 +168,16 @@ async def start(client, message):
         ]]
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
-     for file in files:
         if "[TSNM]" in file.file_name:
             continue
             first_two_words = ' '.join(file.file_name.split()[:2])
             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
-
-                CAPTION = settings['caption']
-                    f_caption = CAPTION.format(
-                    file_name=cleaned_file_name,
-                    first_two_words=first_two_words,
-                    file_size=get_size(file.file_size),
-                    file_caption=file.caption
+             CAPTION = settings['caption']
+             f_caption = CAPTION.format(
+                file_name=cleaned_file_name,
+                first_two_words=first_two_words,
+                file_size=get_size(file.file_size),
+                file_caption=file.caption
             )
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
