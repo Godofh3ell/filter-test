@@ -152,6 +152,7 @@ async def start(client, message):
     if not files_:
         return await message.reply('No Such File Exist!')
     files = files_[0]
+    first_two_words = ' '.join(files.file_name.replace("[TSNM]", "").split()[:2]).strip()
     settings = await get_settings(int(grp_id))
     if type_ != 'shortlink' and settings['shortlink']:
         link = await get_shortlink(settings['url'], settings['api'], f"https://t.me/{temp.U_NAME}?start=shortlink_{grp_id}_{file_id}")
@@ -162,7 +163,6 @@ async def start(client, message):
         ]]
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
-        first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
