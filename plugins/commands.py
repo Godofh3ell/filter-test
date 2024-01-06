@@ -121,12 +121,12 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
+            first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
-                file_caption=file.caption,
-                first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
+                file_caption=file.caption
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
@@ -162,6 +162,7 @@ async def start(client, message):
         ]]
         await message.reply(f"[{get_size(files.file_size)}] {files.file_name}\n\nYour file is ready, Please get using this link. 👍", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
+        first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
     CAPTION = settings['caption']
     f_caption = CAPTION.format(
         file_name = files.file_name,
