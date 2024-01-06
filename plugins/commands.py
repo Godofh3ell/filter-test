@@ -115,9 +115,8 @@ async def start(client, message):
         ]]
         await message.reply("You not verified today! Kindly verify now. 🔐", reply_markup=InlineKeyboardMarkup(btn), protect_content=True)
         return
- 
-async def some_function():
-    if mc.startswith('all'):
+        
+        if mc.startswith('all'):
         _, grp_id, key = mc.split("_", 2)
         files = temp.FILES.get(key)
         if not files:
