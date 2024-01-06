@@ -120,6 +120,7 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
+            first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
@@ -128,6 +129,8 @@ async def start(client, message):
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
+            ],[
+                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{urllib.parse.quote(first_two_words)}')
             ],[
                 InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('💡 Support Group 💡', url=SUPPORT_LINK)
@@ -166,6 +169,8 @@ async def start(client, message):
     )
     btn = [[
         InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file_id}")
+    ],[
+        InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{urllib.parse.quote(first_two_words)}')
     ],[
         InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
         InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
