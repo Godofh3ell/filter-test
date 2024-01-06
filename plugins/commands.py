@@ -18,6 +18,7 @@ import sys
 from shortzy import Shortzy
 from telegraph import upload_file
 from plugins.pm_filter import auto_filter
+from urllib.parse import quote
 
 
 @Client.on_message(filters.command("start") & filters.incoming)
@@ -137,13 +138,14 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
-            first_two_words = ' '.join(files.file_name.replace("[TSNM]", "").split()[:2]).strip()
             cleaned_file_name = files.file_name.replace("[TSNM]", "").strip()
+            first_two_words = ' '.join(cleaned_file_name.split()[:2])
+            url_friendly_name = quote(first_two_words)
+            url = f'http://reviewdeck.eu.org/search/{url_friendly_name}'
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
-                file_name=cleaned_file_name,
-                first_two_words=first_two_words,
-                file_size=get_size(file.file_size),
+                file_name = file.file_name,
+                file_size = get_size(file.file_size),
                 file_caption=file.caption
             )
             btn = [[
@@ -152,7 +154,7 @@ async def start(client, message):
                 InlineKeyboardButton('⚡️ ᴜᴘᴅᴀᴛᴇs ⚡️', url=UPDATES_LINK),
                 InlineKeyboardButton('💡 ꜱᴜᴘᴘᴏʀᴛ 💡', url=SUPPORT_LINK)
             ],[
-                InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{urllib.parse.quote(first_two_words)}')
+                InlineKeyboardButton("🌟 Review this movie / series", url=url)
             ],[
                 InlineKeyboardButton('⁉️ ᴄʟᴏsᴇ ⁉️', callback_data='close_data')
             ]]
