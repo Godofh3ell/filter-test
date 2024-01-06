@@ -199,7 +199,7 @@ async def next_page(bot, query):
             InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")]
         )
         btn.append(
-    [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search.text.replace(" ", "%20")}')]
+    [InlineKeyboardButton("🌟 Review this movie / series", url=f'http://reviewdeck.eu.org/search/{search.replace(" ", "%20")}')]
 )
         
     else:
