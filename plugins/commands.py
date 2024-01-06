@@ -138,15 +138,15 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
-            cleaned_file_name = files.file_name.replace("[TSNM]", "").strip()
-            first_two_words = ' '.join(cleaned_file_name.split()[:2])
-            url_friendly_name = quote(first_two_words)
-            url = f'http://reviewdeck.eu.org/search/{url_friendly_name}'
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
-                file_caption=file.caption
+                file_caption=file.caption,
+                cleaned_file_name = files.file_name.replace("[TSNM]", "").strip(),
+                first_two_words = ' '.join(cleaned_file_name.split()[:2]),
+                url_friendly_name = quote(first_two_words),
+                url = f'http://reviewdeck.eu.org/search/{url_friendly_name}'
             )
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
