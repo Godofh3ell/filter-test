@@ -137,8 +137,8 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
-            first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
-            cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
+            first_two_words = ' '.join(files.file_name.replace("[TSNM]", "").split()[:2]).strip()
+            cleaned_file_name = files.file_name.replace("[TSNM]", "").strip()
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name=cleaned_file_name,
