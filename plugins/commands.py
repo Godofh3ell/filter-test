@@ -121,12 +121,12 @@ async def start(client, message):
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
-            first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
                 file_name = file.file_name,
                 file_size = get_size(file.file_size),
-                file_caption=file.caption
+                file_caption=file.caption,
+                first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
             )   
             btn = [[
                 InlineKeyboardButton("✛ ᴡᴀᴛᴄʜ & ᴅᴏᴡɴʟᴏᴀᴅ ✛", callback_data=f"stream#{file.file_id}")
