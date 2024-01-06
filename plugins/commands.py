@@ -124,9 +124,7 @@ async def some_function():
             return await message.reply('No Such All Files Exist!')
         settings = await get_settings(int(grp_id))
         for file in files:
-            if "[TSNM]" in file.file_name:
-                continue
-            first_two_words = ' '.join(file.file_name.split()[:2])
+            first_two_words = ' '.join(file.file_name.replace("[TSNM]", "").split()[:2]).strip()
             cleaned_file_name = file.file_name.replace("[TSNM]", "").strip()
             CAPTION = settings['caption']
             f_caption = CAPTION.format(
