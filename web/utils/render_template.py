@@ -1,3 +1,4 @@
+import os
 import urllib.parse
 import aiofiles
 from aiohttp import web
@@ -8,7 +9,7 @@ from info import BIN_CHANNEL, URL
 PASSWORD = "your_secure_password"  # Define your password here
 
 async def media_watch(message_id):
-    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, message_id)
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
     file_properties = await TGCustomYield().generate_file_properties(media_msg)
     file_name, mime_type = file_properties.file_name, file_properties.mime_type
     src = urllib.parse.urljoin(URL, f'download/{message_id}')
@@ -36,7 +37,7 @@ async def download_file(message_id, provided_password=None):
             </html>
         ''', content_type='text/html')
 
-    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, message_id)
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
     file_properties = await TGCustomYield().generate_file_properties(media_msg)
     file_name = file_properties.file_name
     file_path = f"downloads/{file_name}"
