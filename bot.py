@@ -16,6 +16,13 @@ from pyrogram import types
 # Handle request for media watch
 async def handle_request(request):
     message_id = request.query.get('message_id')
+    if message_id is None:
+        return web.Response(status=400, text="message_id is required")
+    try:
+        message_id = int(message_id)
+    except ValueError:
+        return web.Response(status=400, text="Invalid message_id")
+    
     html_content = await media_watch(message_id)
     return web.Response(text=html_content, content_type='text/html')
 
@@ -23,6 +30,11 @@ async def handle_request(request):
 async def handle_download(request):
     message_id = request.match_info.get('message_id')
     provided_password = request.query.get('password')
+    try:
+        message_id = int(message_id)
+    except ValueError:
+        return web.Response(status=400, text="Invalid message_id")
+    
     response = await download_file(message_id, provided_password)
     return response
 
