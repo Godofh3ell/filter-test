@@ -7,20 +7,24 @@ from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid
 from aiohttp import web
 from database.ia_filterdb import Media
 from database.users_chats_db import db
-from web.utils.render_template import media_watch
+from web.utils.render_template import media_watch, download_file
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
 
-PASSWORD = "your_secure_password"  # Define your password here
-
-# Handle request for media watch with password protection
+# Handle request for media watch
 async def handle_request(request):
     message_id = request.query.get('message_id')
-    provided_password = request.query.get('password')
-    html_content = await media_watch(message_id, provided_password)
+    html_content = await media_watch(message_id)
     return web.Response(text=html_content, content_type='text/html')
+
+# Handle request for file download with password protection
+async def handle_download(request):
+    message_id = request.match_info.get('message_id')
+    provided_password = request.query.get('password')
+    response = await download_file(message_id, provided_password)
+    return response
 
 class Bot(Client):
     def __init__(self):
@@ -33,6 +37,7 @@ class Bot(Client):
         )
         self.web_app = web.Application()
         self.web_app.router.add_get('/media', handle_request)
+        self.web_app.router.add_get('/download/{message_id}', handle_download)
         self.runner = web.AppRunner(self.web_app)
 
     async def start(self):
