@@ -8,6 +8,7 @@ from aiohttp import web
 from database.ia_filterdb import Media
 from database.users_chats_db import db
 from web.utils.render_template import media_watch, download_file
+from info import PASSWORD
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
