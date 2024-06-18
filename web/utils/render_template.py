@@ -4,7 +4,8 @@ import urllib.parse
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield
 from utils import temp
-from info import BIN_CHANNEL, URL, PASSWORD
+from info import BIN_CHANNEL, URL, DOWNLOAD_PASSWORD
+
 
 async def media_watch(message_id):
     message_id = int(message_id)
