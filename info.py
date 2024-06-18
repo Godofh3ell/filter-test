@@ -128,7 +128,7 @@ else:
         exit()
 
 # Password for download protection
-DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '')
+DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '123')
 if len(DOWNLOAD_PASSWORD) == 0:
     print('Error - DOWNLOAD_PASSWORD is missing, exiting now')
     exit()
