@@ -1,6 +1,5 @@
-import re, logging
+import re
 from os import environ
-from Script import script
 
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
@@ -114,7 +113,6 @@ if len(BIN_CHANNEL) == 0:
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
-
 URL = environ.get("URL", "")
 if len(URL) == 0:
     print('Error - URL is missing, exiting now')
@@ -129,8 +127,8 @@ else:
         print('Error - URL is not valid, exiting now')
         exit()
 
-# Password for downloads
-DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '123')
+# Password for download protection
+DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '')
 if len(DOWNLOAD_PASSWORD) == 0:
     print('Error - DOWNLOAD_PASSWORD is missing, exiting now')
     exit()
