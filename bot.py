@@ -23,19 +23,12 @@ async def handle_request(request):
     except ValueError:
         return web.Response(status=400, text="Invalid message_id")
     
-    html_content = await media_watch(message_id)
+    html_content = await media_watch(request)
     return web.Response(text=html_content, content_type='text/html')
 
 # Handle request for file download with password protection
 async def handle_download(request):
-    message_id = request.match_info.get('message_id')
-    provided_password = request.query.get('password')
-    try:
-        message_id = int(message_id)
-    except ValueError:
-        return web.Response(status=400, text="Invalid message_id")
-    
-    response = await download_file(message_id, provided_password)
+    response = await download_file(request)
     return response
 
 class Bot(Client):
