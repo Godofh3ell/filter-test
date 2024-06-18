@@ -1,9 +1,15 @@
 import math
-import mimetypes
 from typing import Union
 from pyrogram.types import Message
 from pyrogram import Client
 from pyrogram.file_id import FileId, FileType
+
+async def chunk_size(length):
+    return 2 ** max(min(math.ceil(math.log2(length / 1024)), 10), 2) * 1024
+
+async def offset_fix(offset, chunksize):
+    offset -= offset % chunksize
+    return offset
 
 class TGCustomYield:
     def __init__(self, bot: Client):
