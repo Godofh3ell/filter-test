@@ -1,36 +1,27 @@
-import asyncio
+# filter-test/web/utils/render_template.py
+
 from aiohttp import web
-from pyrogram import Client, types
-from info import DOWNLOAD_PASSWORD, BIN_CHANNEL, URL
-from utils.custom_dl import TGCustomYield
+from web.utils.custom_dl import TGCustomYield
+from info import DOWNLOAD_PASSWORD  # Assuming DOWNLOAD_PASSWORD is imported from info.py
 
 async def media_watch(request):
-    # Implement your media watch logic here
-    pass
+    # Placeholder implementation for media watch
+    return web.Response(text="Media Watch Content", content_type='text/html')
 
 async def download_file(request):
-    try:
-        message_id = int(request.match_info['message_id'])
-    except ValueError:
-        return web.Response(status=400, text="Invalid message_id")
+    message_id = request.match_info.get('message_id')
+    if not message_id:
+        return web.Response(status=400, text="Message ID is required")
 
-    password = request.query.get('password', '')
+    # Check for password protection
+    password = request.query.get('password')
     if password != DOWNLOAD_PASSWORD:
-        return web.Response(status=401, text="Unauthorized access")
+        return web.Response(status=403, text="Unauthorized: Invalid password")
 
-    try:
-        media_msg = await client.get_messages(BIN_CHANNEL, message_ids=message_id)
-        if not media_msg.media:
-            return web.Response(status=400, text="Message does not contain media")
+    # Generate and return the download response
+    async with TGCustomYield() as tg_custom_yield:
+        file_data = await tg_custom_yield.get_file(message_id)
+        if not file_data:
+            return web.Response(status=404, text="File not found")
 
-        total_size = media_msg.file_size if media_msg.file_size else media_msg.document.file_size
-        offset, first_part_cut, last_part_cut, part_count = 0, 0, 0, 0
-        while offset < total_size:
-            result = await TGCustomYield().get_location(media_msg, offset, total_size)
-            offset, first_part_cut, last_part_cut, part_count = result[1:]
-        return web.Response(
-            body=TGCustomYield().yield_file(media_msg, offset, first_part_cut, last_part_cut, part_count),
-            headers={'Content-Disposition': f'attachment; filename="{media_msg.file_name or "file"}"'}
-        )
-    except Exception as e:
-        return web.Response(status=500, text=f"Internal Server Error: {str(e)}")
+        return web.Response(body=file_data, content_type='application/octet-stream')
