@@ -1,15 +1,10 @@
 import math
 from typing import Union
 from pyrogram.types import Message
-from pyrogram import Client
-from pyrogram.file_id import FileId, FileType
-
-async def chunk_size(length):
-    return 2 ** max(min(math.ceil(math.log2(length / 1024)), 10), 2) * 1024
-
-async def offset_fix(offset, chunksize):
-    offset -= offset % chunksize
-    return offset
+from pyrogram import Client, raw
+from pyrogram.session import Session, Auth
+from pyrogram.errors import AuthBytesInvalid
+from pyrogram.file_id import FileId, FileType, ThumbnailSource
 
 class TGCustomYield:
     def __init__(self, bot: Client):
@@ -31,23 +26,8 @@ class TGCustomYield:
 
         return file_id_obj
 
-    async def get_location(self, file_id: FileId) -> Union[str, None]:
-        file_type = file_id.file_type
-
-        if file_type == FileType.VIDEO:
-            location = await self.main_bot.get_input_media(video_id=file_id.media_id)
-        elif file_type == FileType.DOCUMENT:
-            location = await self.main_bot.get_input_media(document_id=file_id.media_id)
-        else:
-            raise ValueError(f"Unsupported file type: {file_type}")
-
-        return location
-
-    async def yield_file(self, media_msg: Message, offset: int, first_part_cut: int,
-                         last_part_cut: int, part_count: int, chunk_size: int):
-        client = self.main_bot
-        data = await self.generate_file_properties(media_msg)
-
+    async def generate_media_session(self, client: Client, msg: Message):
+        data = await self.generate_file_properties(msg)
         media_session = client.media_sessions.get(data.dc_id, None)
 
         if media_session is None:
@@ -88,7 +68,38 @@ class TGCustomYield:
 
             client.media_sessions[data.dc_id] = media_session
 
+        return media_session
+
+    async def get_location(self, file_id: FileId):
+        file_type = file_id.file_type
+
+        if file_type == FileType.VIDEO:
+            location = raw.types.InputVideoFileLocation(
+                id=file_id.media_id,
+                access_hash=file_id.access_hash,
+                file_reference=file_id.file_reference,
+                thumb_size=file_id.thumbnail_size
+            )
+        elif file_type == FileType.DOCUMENT:
+            location = raw.types.InputDocumentFileLocation(
+                id=file_id.media_id,
+                access_hash=file_id.access_hash,
+                file_reference=file_id.file_reference,
+                thumb_size=file_id.thumbnail_size
+            )
+        else:
+            raise ValueError(f"Unsupported file type: {file_type}")
+
+        return location
+
+    async def yield_file(self, media_msg: Message, offset: int, first_part_cut: int,
+                         last_part_cut: int, part_count: int, chunk_size: int) -> Union[str, None]:
+        client = self.main_bot
+        data = await self.generate_file_properties(media_msg)
+        media_session = await self.generate_media_session(client, media_msg)
+
         current_part = 1
+
         location = await self.get_location(data)
 
         r = await media_session.send(
