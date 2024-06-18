@@ -1,15 +1,18 @@
+import os
+import aiofiles
+import urllib.parse
+from aiohttp import web
 from web.utils.custom_dl import TGCustomYield
 from utils import temp
-from urllib.parse import quote_plus
-from aiohttp import web
-import mimetypes
+from info import BIN_CHANNEL, URL, PASSWORD
 
 async def media_watch(message_id):
+    message_id = int(message_id)
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
     try:
         file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
     except ValueError:
-        return '<h1>File type not supported or not found.</h1>'
+        return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
 
     file_name, mime_type = file_properties.file_name, file_properties.mime_type
     src = urllib.parse.urljoin(URL, f'download/{message_id}')
@@ -20,9 +23,9 @@ async def media_watch(message_id):
             html = (await r.read()).replace('tag', tag) % (heading, file_name, src)
     else:
         html = '<h1>This is not a streamable file</h1>'
-    return html
+    return web.Response(text=html, content_type='text/html')
 
-async def download_file(request, message_id):
+async def download_handler(request, message_id):
     provided_password = request.query.get('password')
 
     if provided_password != PASSWORD:
@@ -39,19 +42,18 @@ async def download_file(request, message_id):
             </html>
         ''', content_type='text/html')
 
-    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
     try:
-        file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
-    except ValueError:
-        return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
+        message_id = int(message_id)
+        return await media_download(request, message_id)
+    except Exception as e:
+        logging.error(f"Error during download: {e}")
+        return web.Response(text="<h1>Something went wrong</h1>", content_type='text/html')
 
-    file_name = file_properties.file_name
-    file_path = f"downloads/{file_name}"
+async def media_download(request, message_id):
+    range_header = request.headers.get('Range', 0)
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
+    file_properties = await TGCustomYield().generate_file_properties(media_msg)
+    file_size = file_properties.file_size
 
-    if not os.path.exists(file_path):
-        async with aiofiles.open(file_path, 'wb') as f:
-            async for chunk in TGCustomYield(temp.BOT).yield_file(media_msg, 0, 0, 0, 1, 1024 * 1024):
-                await f.write(chunk)
-
-    return web.FileResponse(file_path)
-
+    if range_header:
+        from_bytes
