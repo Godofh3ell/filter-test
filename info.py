@@ -133,3 +133,6 @@ DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '123')
 if len(DOWNLOAD_PASSWORD) == 0:
     print('Error - DOWNLOAD_PASSWORD is missing, exiting now')
     exit()
+
+# Exporting variables
+from filter-test.info import PASSWORD, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
