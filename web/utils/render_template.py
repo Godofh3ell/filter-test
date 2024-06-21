@@ -9,23 +9,20 @@ from info import BIN_CHANNEL, URL, DOWNLOAD_PASSWORD
 async def media_watch(request):
     message_id = int(request.match_info['message_id'])
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
-
     try:
         file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
     except ValueError:
         return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
 
     file_name, mime_type = file_properties.file_name, file_properties.mime_type
-    src = urllib.parse.urljoin(URL, f'download/{message_id}')
+    src = urllib.parse.urljoin(URL, f'/download/{message_id}')
     tag = mime_type.split('/')[0].strip()
-
     if tag == 'video':
         async with aiofiles.open('web/template/watch.html') as r:
             heading = f'Watch - {file_name}'
             html = (await r.read()).replace('tag', tag) % (heading, file_name, src)
     else:
         html = '<h1>This is not a streamable file</h1>'
-
     return web.Response(text=html, content_type='text/html')
 
 async def download_file(request):
@@ -53,6 +50,9 @@ async def download_file(request):
     except ValueError:
         return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
 
+    if file_properties is None or not hasattr(file_properties, 'file_name'):
+        return web.Response(text='<h1>File properties not found or incomplete.</h1>', content_type='text/html')
+
     file_name = file_properties.file_name
     file_path = f"downloads/{file_name}"
 
@@ -63,12 +63,3 @@ async def download_file(request):
 
     return web.FileResponse(file_path)
 
-app = web.Application()
-app.add_routes([
-    web.get('/media_watch/{message_id}', media_watch),
-    web.get('/download/{message_id}', download_file),
-])
-
-if __name__ == '__main__':
-    web.run_app(app)
-    
