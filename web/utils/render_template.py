@@ -4,13 +4,12 @@ import urllib.parse
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield
 from utils import temp
-from info import BIN_CHANNEL, URL
-
-PASSWORD = "your_secure_password"  # Define your password here
+from info import BIN_CHANNEL, URL, DOWNLOAD_PASSWORD
 
 async def media_watch(request):
     message_id = int(request.match_info['message_id'])
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
+
     try:
         file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
     except ValueError:
@@ -19,19 +18,21 @@ async def media_watch(request):
     file_name, mime_type = file_properties.file_name, file_properties.mime_type
     src = urllib.parse.urljoin(URL, f'download/{message_id}')
     tag = mime_type.split('/')[0].strip()
+
     if tag == 'video':
         async with aiofiles.open('web/template/watch.html') as r:
-            heading = 'Watch - {}'.format(file_name)
+            heading = f'Watch - {file_name}'
             html = (await r.read()).replace('tag', tag) % (heading, file_name, src)
     else:
         html = '<h1>This is not a streamable file</h1>'
+
     return web.Response(text=html, content_type='text/html')
 
 async def download_file(request):
     message_id = int(request.match_info['message_id'])
     provided_password = request.query.get('password')
 
-    if provided_password != PASSWORD:
+    if provided_password != DOWNLOAD_PASSWORD:
         return web.Response(text='''
             <html>
                 <head><title>Password Required</title></head>
@@ -46,6 +47,7 @@ async def download_file(request):
         ''', content_type='text/html')
 
     media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
+
     try:
         file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
     except ValueError:
@@ -56,7 +58,7 @@ async def download_file(request):
 
     if not os.path.exists(file_path):
         async with aiofiles.open(file_path, 'wb') as f:
-            async for chunk in TGCustomYield(temp.BOT).yield_file(media_msg, 0, 0, 0, 1, 1024 * 1024):
+            async for chunk in TGCustomYield(temp.BOT).download_as_bytesio(media_msg):
                 await f.write(chunk)
 
     return web.FileResponse(file_path)
@@ -69,3 +71,4 @@ app.add_routes([
 
 if __name__ == '__main__':
     web.run_app(app)
+    
