@@ -4,7 +4,9 @@ import urllib.parse
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield
 from utils import temp
-from info import BIN_CHANNEL, URL, PASSWORD
+from info import BIN_CHANNEL, URL
+
+PASSWORD = os.environ.get('DOWNLOAD_PASSWORD', '123')  # Fetching the password from environment variables
 
 async def media_watch(request):
     try:
@@ -72,4 +74,3 @@ async def download_file(request):
                 await f.write(chunk)
 
     return web.FileResponse(file_path)
-
