@@ -1,27 +1,71 @@
-# filter-test/web/utils/render_template.py
-
+import os
+import aiofiles
+import urllib.parse
 from aiohttp import web
 from web.utils.custom_dl import TGCustomYield
-from info import DOWNLOAD_PASSWORD  # Assuming DOWNLOAD_PASSWORD is imported from info.py
+from utils import temp
+from info import BIN_CHANNEL, URL
+
+PASSWORD = "your_secure_password"  # Define your password here
 
 async def media_watch(request):
-    # Placeholder implementation for media watch
-    return web.Response(text="Media Watch Content", content_type='text/html')
+    message_id = int(request.match_info['message_id'])
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
+    try:
+        file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
+    except ValueError:
+        return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
+
+    file_name, mime_type = file_properties.file_name, file_properties.mime_type
+    src = urllib.parse.urljoin(URL, f'download/{message_id}')
+    tag = mime_type.split('/')[0].strip()
+    if tag == 'video':
+        async with aiofiles.open('web/template/watch.html') as r:
+            heading = 'Watch - {}'.format(file_name)
+            html = (await r.read()).replace('tag', tag) % (heading, file_name, src)
+    else:
+        html = '<h1>This is not a streamable file</h1>'
+    return web.Response(text=html, content_type='text/html')
 
 async def download_file(request):
-    message_id = request.match_info.get('message_id')
-    if not message_id:
-        return web.Response(status=400, text="Message ID is required")
+    message_id = int(request.match_info['message_id'])
+    provided_password = request.query.get('password')
 
-    # Check for password protection
-    password = request.query.get('password')
-    if password != DOWNLOAD_PASSWORD:
-        return web.Response(status=403, text="Unauthorized: Invalid password")
+    if provided_password != PASSWORD:
+        return web.Response(text='''
+            <html>
+                <head><title>Password Required</title></head>
+                <body>
+                    <h1>Enter Password to Download the File</h1>
+                    <form method="get">
+                        <input type="password" name="password" required />
+                        <button type="submit">Submit</button>
+                    </form>
+                </body>
+            </html>
+        ''', content_type='text/html')
 
-    # Generate and return the download response
-    async with TGCustomYield() as tg_custom_yield:
-        file_data = await tg_custom_yield.get_file(message_id)
-        if not file_data:
-            return web.Response(status=404, text="File not found")
+    media_msg = await temp.BOT.get_messages(BIN_CHANNEL, [message_id])
+    try:
+        file_properties = await TGCustomYield(temp.BOT).generate_file_properties(media_msg)
+    except ValueError:
+        return web.Response(text='<h1>File type not supported or not found.</h1>', content_type='text/html')
 
-        return web.Response(body=file_data, content_type='application/octet-stream')
+    file_name = file_properties.file_name
+    file_path = f"downloads/{file_name}"
+
+    if not os.path.exists(file_path):
+        async with aiofiles.open(file_path, 'wb') as f:
+            async for chunk in TGCustomYield(temp.BOT).yield_file(media_msg, 0, 0, 0, 1, 1024 * 1024):
+                await f.write(chunk)
+
+    return web.FileResponse(file_path)
+
+app = web.Application()
+app.add_routes([
+    web.get('/media_watch/{message_id}', media_watch),
+    web.get('/download/{message_id}', download_file),
+])
+
+if __name__ == '__main__':
+    web.run_app(app)
