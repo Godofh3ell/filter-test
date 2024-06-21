@@ -2,14 +2,16 @@ import logging
 import time
 import os
 import platform
-from pyrogram import Client, __version__, types
+from pyrogram import Client, __version__
+from pyrogram.errors import AccessTokenExpired, AccessTokenInvalid
 from aiohttp import web
 from database.ia_filterdb import Media
 from database.users_chats_db import db
 from web.utils.render_template import media_watch, download_file
-from info import PASSWORD, LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
+from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL
 from utils import temp
-from typing import Optional, AsyncGenerator, Union
+from typing import Union, Optional, AsyncGenerator
+from pyrogram import types
 
 # Handle request for media watch
 async def handle_request(request):
@@ -21,7 +23,7 @@ async def handle_request(request):
     except ValueError:
         return web.Response(status=400, text="Invalid message_id")
     
-    html_content = await media_watch(message_id)
+    html_content = await media_watch(request)
     return web.Response(text=html_content, content_type='text/html')
 
 # Handle request for file download with password protection
@@ -52,7 +54,7 @@ class Bot(Client):
 
         if os.path.exists('restart.txt'):
             with open("restart.txt") as file:
-                chat_id, msg_id = map(int, file.read().split())
+                chat_id, msg_id = map(int, file)
             try:
                 await self.edit_message_text(chat_id=chat_id, message_id=msg_id, text='Restarted Successfully!')
             except Exception as e:
@@ -91,13 +93,13 @@ class Bot(Client):
         await self.runner.cleanup()
         print("Bot Stopped! Bye...")
 
-    async def iter_messages(self: Client, chat_id: Union[int, str], limit: int, offset: int = 0) -> Optional[AsyncGenerator[types.Message, None]]:
+    async def iter_messages(self: Client, chat_id: Union[int, str], limit: int, offset: int = 0) -> Optional[AsyncGenerator["types.Message", None]]:
         current = offset
         while True:
             new_diff = min(200, limit - current)
             if new_diff <= 0:
                 return
-            messages = await self.get_messages(chat_id, list(range(current, current + new_diff)))
+            messages = await self.get_messages(chat_id, list(range(current, current+new_diff+1)))
             for message in messages:
                 yield message
                 current += 1
@@ -106,3 +108,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     bot = Bot()
     bot.run()
+        
