@@ -16,60 +16,60 @@ def is_valid_ip(ip):
 
 # Bot information
 API_ID = environ.get('API_ID', '')
-if len(API_ID) == 0:
+if not API_ID:
     print('Error - API_ID is missing, exiting now')
     exit()
 else:
     API_ID = int(API_ID)
 API_HASH = environ.get('API_HASH', '')
-if len(API_HASH) == 0:
+if not API_HASH:
     print('Error - API_HASH is missing, exiting now')
     exit()
 BOT_TOKEN = environ.get('BOT_TOKEN', '')
-if len(BOT_TOKEN) == 0:
+if not BOT_TOKEN:
     print('Error - BOT_TOKEN is missing, exiting now')
     exit()
 PORT = int(environ.get('PORT', '80'))
 
 # Bot pics
-PICS = (environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg')).split()
+PICS = environ.get('PICS', 'https://telegra.ph/file/58fef5cb458d5b29b0186.jpg https://telegra.ph/file/f0aa4f433132769f8970c.jpg https://telegra.ph/file/f515fbc2084592eca60a5.jpg https://telegra.ph/file/20dbdcffaa89bd3d09a74.jpg https://telegra.ph/file/6045ba953af4def846238.jpg').split()
 
 # Bot Admins
 ADMINS = environ.get('ADMINS', '')
-if len(ADMINS) == 0:
+if not ADMINS:
     print('Error - ADMINS is missing, exiting now')
     exit()
 else:
-    ADMINS = [int(admins) for admins in ADMINS.split()]
+    ADMINS = [int(admin) for admin in ADMINS.split()]
 
 # Channels
-INDEX_CHANNELS = [int(index_channels) if index_channels.startswith("-") else index_channels for index_channels in environ.get('INDEX_CHANNELS', '').split()]
-if len(INDEX_CHANNELS) == 0:
+INDEX_CHANNELS = [int(index_channel) if index_channel.startswith("-") else index_channel for index_channel in environ.get('INDEX_CHANNELS', '').split()]
+if not INDEX_CHANNELS:
     print('Info - INDEX_CHANNELS is empty')
-AUTH_CHANNEL = [int(auth_channels) for auth_channels in environ.get('AUTH_CHANNEL', '').split()]
-if len(AUTH_CHANNEL) == 0:
+AUTH_CHANNEL = [int(auth_channel) for auth_channel in environ.get('AUTH_CHANNEL', '').split()]
+if not AUTH_CHANNEL:
     print('Info - AUTH_CHANNEL is empty')
 LOG_CHANNEL = environ.get('LOG_CHANNEL', '')
-if len(LOG_CHANNEL) == 0:
+if not LOG_CHANNEL:
     print('Error - LOG_CHANNEL is missing, exiting now')
     exit()
 else:
     LOG_CHANNEL = int(LOG_CHANNEL)
     
 SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '')
-if len(SUPPORT_GROUP) == 0:
+if not SUPPORT_GROUP:
     print('Error - SUPPORT_GROUP is missing, exiting now')
     exit()
 else:
     SUPPORT_GROUP = int(SUPPORT_GROUP)
     
 OPENAI_API = environ.get('OPENAI_API', '')
-if len(OPENAI_API) == 0:
+if not OPENAI_API:
     print('Info - OPENAI_API is empty')
 
 # MongoDB information
 DATABASE_URL = environ.get('DATABASE_URL', "")
-if len(DATABASE_URL) == 0:
+if not DATABASE_URL:
     print('Error - DATABASE_URL is missing, exiting now')
     exit()
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
@@ -81,14 +81,14 @@ UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/TSNM_Offical')
 FILMS_LINK = environ.get('FILMS_LINK', '')
 
 # Bot settings
-AUTO_FILTER = is_enabled((environ.get('AUTO_FILTER', "True")), True)
-IMDB = is_enabled((environ.get('IMDB', "False")), False)
+AUTO_FILTER = is_enabled(environ.get('AUTO_FILTER', "True"), True)
+IMDB = is_enabled(environ.get('IMDB', "False"), False)
 SPELL_CHECK = is_enabled(environ.get("SPELL_CHECK", "True"), True)
-SHORTLINK = is_enabled((environ.get('SHORTLINK', "False")), False)
-DELETE_TIME = int(environ.get('DELETE_TIME', 3600)) # Add time in seconds
-AUTO_DELETE = is_enabled((environ.get('AUTO_DELETE', "False")), False)
-WELCOME = is_enabled((environ.get('WELCOME', "False")), False)
-PROTECT_CONTENT = is_enabled((environ.get('PROTECT_CONTENT', "False")), False)
+SHORTLINK = is_enabled(environ.get('SHORTLINK', "False"), False)
+DELETE_TIME = int(environ.get('DELETE_TIME', 3600))  # Add time in seconds
+AUTO_DELETE = is_enabled(environ.get('AUTO_DELETE', "False"), False)
+WELCOME = is_enabled(environ.get('WELCOME', "False"), False)
+PROTECT_CONTENT = is_enabled(environ.get('PROTECT_CONTENT', "False"), False)
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
 LINK_MODE = is_enabled(environ.get("LINK_MODE", "True"), True)
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
@@ -100,22 +100,22 @@ IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", script.IMDB_TEMPLATE)
 FILE_CAPTION = environ.get("FILE_CAPTION", script.FILE_CAPTION)
 SHORTLINK_URL = environ.get("SHORTLINK_URL", "teeny.gq")
 SHORTLINK_API = environ.get("SHORTLINK_API", "40d365d982c485643c8e7d1cac860508b009b6a4")
-VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 86400)) # Add time in seconds
+VERIFY_EXPIRE = int(environ.get('VERIFY_EXPIRE', 86400))  # Add time in seconds
 IS_VERIFY = is_enabled(environ.get("IS_VERIFY", "False"), False)
 WELCOME_TEXT = environ.get("WELCOME_TEXT", script.WELCOME_TEXT)
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/tsnm_index")
 VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/tsnm_index")
-INDEX_EXTENSIONS = [extensions.lower() for extensions in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
+INDEX_EXTENSIONS = [extension.lower() for extension in environ.get('INDEX_EXTENSIONS', 'mp4 mkv').split()]
 
 # Stream features vars
 BIN_CHANNEL = environ.get("BIN_CHANNEL", "")
-if len(BIN_CHANNEL) == 0:
+if not BIN_CHANNEL:
     print('Error - BIN_CHANNEL is missing, exiting now')
     exit()
 else:
     BIN_CHANNEL = int(BIN_CHANNEL)
 URL = environ.get("URL", "")
-if len(URL) == 0:
+if not URL:
     print('Error - URL is missing, exiting now')
     exit()
 else:
@@ -130,7 +130,7 @@ else:
 
 # Password for download protection
 DOWNLOAD_PASSWORD = environ.get('DOWNLOAD_PASSWORD', '123')
-if len(DOWNLOAD_PASSWORD) == 0:
+if not DOWNLOAD_PASSWORD:
     print('Error - DOWNLOAD_PASSWORD is missing, exiting now')
     exit()
-
+    
