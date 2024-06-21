@@ -23,7 +23,7 @@ async def handle_request(request):
     except ValueError:
         return web.Response(status=400, text="Invalid message_id")
     
-    html_content = await media_watch(message_id)
+    html_content = await media_watch(request)
     return web.Response(text=html_content, content_type='text/html')
 
 # Handle request for file download with password protection
@@ -41,7 +41,7 @@ class Bot(Client):
             plugins={"root": "plugins"}
         )
         self.web_app = web.Application()
-        self.web_app.router.add_get('/media_watch', handle_request)
+        self.web_app.router.add_get('/watch/{message_id}', handle_request)
         self.web_app.router.add_get('/download/{message_id}', handle_download)
         self.runner = web.AppRunner(self.web_app)
 
@@ -108,4 +108,3 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     bot = Bot()
     bot.run()
-        
